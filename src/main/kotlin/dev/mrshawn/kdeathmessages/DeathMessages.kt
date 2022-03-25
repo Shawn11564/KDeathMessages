@@ -1,6 +1,8 @@
 package dev.mrshawn.kdeathmessages
 
 import co.aikar.commands.PaperCommandManager
+import dev.mrshawn.kdeathmessages.deaths.DeathType
+import dev.mrshawn.kdeathmessages.listeners.PlayerDeathListener
 import org.bukkit.plugin.java.JavaPlugin
 
 class DeathMessages: JavaPlugin() {
@@ -22,11 +24,13 @@ class DeathMessages: JavaPlugin() {
 	private fun registerListeners() {
 		val pm = server.pluginManager
 
+		pm.registerEvents(PlayerDeathListener, this)
 	}
 
 	private fun registerCommands() {
 		val pcm = PaperCommandManager(this)
 
+		pcm.commandCompletions.registerCompletion("@deathtype") { DeathType.values().map { it.name } }
 	}
 
 }
